@@ -1,0 +1,148 @@
+version: 1
+
+labels:
+  # Feature and improvement request types
+  # Compatibility contract with ISSUE_TEMPLATE/feature-request.yml:
+  # These rules match the dropdown option values as exact lines. Update and
+  # test both files together whenever an option value is renamed.
+  - label: feature
+    body: '(?m)^New product capability\r?$'
+
+  - label: improvement
+    body: '(?m)^Improvement to an existing capability\r?$'
+
+  # Pull request types
+  - label: bug
+    body: '(?m)^- \[[xX]\] 🐛 Bug fix$'
+
+  - label: feature
+    body: '(?m)^- \[[xX]\] ✨ New feature$'
+
+  - label: improvement
+    body: '(?m)^- \[[xX]\] 🔧 Improvement to existing behavior$'
+
+  - label: breaking change
+    body: '(?m)^- \[[xX]\] 💥 Breaking change$'
+
+  - label: maintenance
+    body: '(?m)^- \[[xX]\] ♻️ Refactor without an intended behavior change$'
+
+  - label: documentation
+    body: '(?m)^- \[[xX]\] 🧾 Documentation$'
+
+  - label: tests
+    body: '(?m)^- \[[xX]\] 🧪 Tests$'
+
+  - label: maintenance
+    body: '(?m)^- \[[xX]\] 🤖 CI/CD or automation$'
+
+  - label: dependencies
+    body: '(?m)^- \[[xX]\] ⬆️ Dependency update$'
+
+  - label: maintenance
+    body: '(?m)^- \[[xX]\] 🧹 Maintenance$'
+
+  # Pull request areas
+  - label: area:accessibility
+    body: '(?m)^- \[[xX]\] Accessibility$'
+
+  - label: area:api
+    body: '(?m)^- \[[xX]\] API$'
+
+  - label: area:architecture
+    body: '(?m)^- \[[xX]\] Architecture$'
+
+  - label: area:auth
+    body: '(?m)^- \[[xX]\] Authentication$'
+
+  - label: area:brand
+    body: '(?m)^- \[[xX]\] Brand$'
+
+  - label: area:database
+    body: '(?m)^- \[[xX]\] Database$'
+
+  - label: area:delivery
+    body: '(?m)^- \[[xX]\] Delivery$'
+
+  - label: area:docs
+    body: '(?m)^- \[[xX]\] Documentation$'
+
+  - label: area:governance
+    body: '(?m)^- \[[xX]\] Governance$'
+
+  - label: area:infrastructure
+    body: '(?m)^- \[[xX]\] Infrastructure$'
+
+  - label: area:ingress
+    body: '(?m)^- \[[xX]\] Ingress$'
+
+  - label: area:integrations
+    body: '(?m)^- \[[xX]\] Integrations$'
+
+  - label: area:observability
+    body: '(?m)^- \[[xX]\] Observability$'
+
+  - label: area:reliability
+    body: '(?m)^- \[[xX]\] Reliability$'
+
+  - label: area:runner
+    body: '(?m)^- \[[xX]\] Runner$'
+
+  - label: area:sdk
+    body: '(?m)^- \[[xX]\] SDK$'
+
+  - label: area:security
+    body: '(?m)^- \[[xX]\] Security$'
+
+  - label: area:storage
+    body: '(?m)^- \[[xX]\] Storage$'
+
+  - label: area:ui-ux
+    body: '(?m)^- \[[xX]\] UI/UX$'
+
+  # Bug report areas
+  # Compatibility contract with ISSUE_TEMPLATE/bug-report.yml:
+  # These rules match the dropdown option values as exact lines. They do not
+  # depend on the generated field heading. Update and test both files together
+  # whenever an option value is renamed.
+  - label: area:infrastructure
+    body: '(?m)^Installation or deployment\r?$'
+
+  - label: area:auth
+    body: '(?m)^Authentication or authorization\r?$'
+
+  - label: area:ingress
+    body: '(?m)^Ingress or source handling\r?$'
+
+  - label: area:integrations
+    body: '(?m)^Provider integration\r?$'
+
+  - label: area:delivery
+    body: '(?m)^Routing or delivery\r?$'
+
+  - label: area:reliability
+    body: '(?m)^Retries, replay, or recovery\r?$'
+
+  - label: area:runner
+    body: '(?m)^Runner connectivity or delivery\r?$'
+
+  - label: area:ui-ux
+    body: '(?m)^Dashboard or user interface\r?$'
+
+  - label: area:api
+    body: '(?m)^API or SDK\r?$'
+
+  - label: area:sdk
+    body: '(?m)^API or SDK\r?$'
+
+  - label: area:storage
+    body: '(?m)^Storage or database\r?$'
+
+  - label: area:database
+    body: '(?m)^Storage or database\r?$'
+
+  - label: area:observability
+    body: '(?m)^Observability or operations\r?$'
+
+  - label: area:docs
+    body: '(?m)^Documentation content\r?$'
