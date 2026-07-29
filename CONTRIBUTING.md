@@ -13,7 +13,12 @@ src/assets/payloadbay-mark.svg
 
 Do not manually create, edit, optimize, or replace files in `dist/`. All SVG, PNG, and favicon files placed there are generated from the canonical sources. After changing a source SVG, use the repository's asset-generation command and commit the source change together with the resulting generated files.
 
-Until that generation command is introduced, leave `dist/` unchanged.
+Regenerate and validate the distribution after changing a source:
+
+```bash
+bun run assets:generate
+bun run assets:check
+```
 
 When changing a canonical SVG:
 
