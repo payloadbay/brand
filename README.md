@@ -15,6 +15,16 @@ Payload Bay currently provides two canonical SVG sources:
 
 Edit only the canonical SVG files in [`src/assets`](src/assets). Files in [`dist`](dist) are generated distributions and must not be edited manually.
 
+Regenerate and validate the distributed SVG, PNG, and favicon files after changing a canonical source:
+
+```bash
+bun install
+bun run assets:generate
+bun run assets:check
+```
+
+The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+
 ## Product references
 
 - [`PRODUCT.md`](PRODUCT.md) describes the product purpose, audience, brand personality, and product context exported by the theme builder.
