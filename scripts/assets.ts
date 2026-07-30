@@ -20,9 +20,23 @@ const iconProfiles = [
   { name: "dark-square", background: "#09182b", rounded: false, inverse: true },
   { name: "dark-rounded", background: "#09182b", rounded: true, inverse: true },
 ] as const;
+const logoProfiles = [
+  { name: "transparent-padded", background: null, rounded: false, inverse: false },
+  { name: "light-panel", background: "#ffffff", rounded: false, inverse: false },
+  { name: "light-rounded", background: "#ffffff", rounded: true, inverse: false },
+  { name: "dark-panel", background: "#09182b", rounded: false, inverse: true },
+  { name: "dark-rounded", background: "#09182b", rounded: true, inverse: true },
+] as const;
 
 type IconProfile = (typeof iconProfiles)[number];
+type LogoProfile = (typeof logoProfiles)[number];
 
+const logoViewBox = "0 0 4538 1000";
+const logoCanvasWidth = 4538;
+const logoCanvasHeight = 1000;
+const logoOffsetX = 567.25;
+const logoOffsetY = 125;
+const logoScale = 0.75;
 const markViewBox = "0 0 1000 1000";
 const markPadding = 125;
 const markScale = 0.75;
@@ -81,6 +95,25 @@ function createIconSvg(mark: string, profile: IconProfile) {
   return svg;
 }
 
+function createLogoSvg(logo: string, profile: LogoProfile) {
+  let contents = extractSvgContents(logo);
+  if (profile.inverse) contents = contents.replace(/#09182b/gi, "#ffffff");
+
+  const background = profile.background
+    ? `<rect width="${logoCanvasWidth}" height="${logoCanvasHeight}"${profile.rounded ? ` rx="${roundedRadius}" ry="${roundedRadius}"` : ""} fill="${profile.background}"/>`
+    : "";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${logoViewBox}">${background}<g transform="translate(${logoOffsetX} ${logoOffsetY}) scale(${logoScale})">${contents}</g></svg>\n`;
+
+  validateSource(svg, `${profile.name}.svg`, logoViewBox);
+  if (!svg.toLowerCase().includes(accent)) {
+    throw new Error(`${profile.name}.svg does not preserve the accent color`);
+  }
+  if (profile.inverse && (contents.toLowerCase().includes(navy) || !contents.toLowerCase().includes("#ffffff"))) {
+    throw new Error(`${profile.name}.svg does not invert the primary artwork`);
+  }
+  return svg;
+}
+
 async function renderPng(svg: string, width: number, output: string) {
   const rendered = new Resvg(svg, {
     fitTo: { mode: "width", value: width },
@@ -129,6 +162,26 @@ function validateRenderedIcon(profile: IconProfile, width: number, pixels: Buffe
   }
 }
 
+function validateRenderedLogo(profile: LogoProfile, width: number, pixels: Buffer) {
+  const corner =
+    profile.background && !profile.rounded
+      ? profile.background === navy
+        ? [9, 24, 43, 255]
+        : [255, 255, 255, 255]
+      : [0, 0, 0, 0];
+  assertPixel(pixelAt(pixels, 0), corner, `${profile.name}-${width}w.png has an unexpected corner pixel`);
+  assertContainsPixel(
+    pixels,
+    [21, 111, 222, 255],
+    `${profile.name}-${width}w.png does not preserve the accent color`,
+  );
+  assertContainsPixel(
+    pixels,
+    profile.inverse ? [255, 255, 255, 255] : [9, 24, 43, 255],
+    `${profile.name}-${width}w.png does not contain the expected primary artwork color`,
+  );
+}
+
 async function generate(outputRoot: string) {
   const logoDirectory = join(outputRoot, "logo");
   const markDirectory = join(outputRoot, "mark");
@@ -160,6 +213,22 @@ async function generate(outputRoot: string) {
 
   const mark = distributedSvgs.get("mark");
   if (!mark) throw new Error("Mark source was not generated");
+  const logo = distributedSvgs.get("logo");
+  if (!logo) throw new Error("Logo source was not generated");
+
+  for (const profile of logoProfiles) {
+    const variant = createLogoSvg(logo, profile);
+    await writeFile(join(logoDirectory, `payloadbay-logo-${profile.name}.svg`), variant);
+    for (const width of assets.logo.widths) {
+      const output = join(logoDirectory, `payloadbay-logo-${profile.name}-${width}w.png`);
+      const rendered = await renderPng(variant, width, output);
+      const expectedHeight = Math.round((width * logoCanvasHeight) / logoCanvasWidth);
+      if (rendered.width !== width || rendered.height !== expectedHeight) {
+        throw new Error(`Unexpected dimensions for ${relative(outputRoot, output)}`);
+      }
+      validateRenderedLogo(profile, width, rendered.pixels);
+    }
+  }
 
   const generatedIcons = new Map<string, string>();
   for (const profile of iconProfiles) {
