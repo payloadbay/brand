@@ -36,3 +36,11 @@ Generated output must be fixed by changing its source or generator and regenerat
 `PRODUCT.md` and `DESIGN.md` are reference exports from the theme builder. Preserve their exported structure when updating them and explain which theme-builder changes produced the update.
 
 The SVG data embedded in `PRODUCT.md` is retained as part of that reference export. The directly usable files in `src/assets` must represent the same logo and mark.
+
+## Brand guidelines
+
+[`BRAND.md`](BRAND.md) is the canonical guide for presenting Payload Bay.
+Update it when a reviewed decision changes how Payload Bay should be described
+or presented. Keep its practical guidance consistent with the canonical SVG
+sources and the Theme Builder references, but do not treat it as a generated
+export.

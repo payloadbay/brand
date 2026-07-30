@@ -6,6 +6,12 @@ Official product references and brand assets for [Payload Bay](https://payloadba
 
 > Receive instantly. Deliver reliably.
 
+## Brand guidelines
+
+[`BRAND.md`](BRAND.md) is the canonical reference for the name and mark,
+approved claims, logo and mark selection, surface variants, colors, typography,
+clear space, minimum sizes, misuse, and brand voice.
+
 ## Brand assets
 
 Payload Bay currently provides two canonical SVG sources:
