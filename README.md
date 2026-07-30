@@ -23,7 +23,22 @@ bun run assets:generate
 bun run assets:check
 ```
 
-The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; application-icon variants; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; reusable logo surface variants; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; application-icon variants; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+
+### Logo surface variants
+
+The complete logo remains available unchanged on a transparent canvas in [`dist/logo`](dist/logo). Five additional variants are generated from the same canonical logo for documentation headers, repository profiles, websites, and other surfaces with known or unknown backgrounds:
+
+| Variant | Background | Shape | Primary artwork |
+| --- | --- | --- | --- |
+| Original logo | Transparent | Original canvas | Navy and blue |
+| Transparent padded | Transparent | Original aspect ratio with 12.5% padding | Navy and blue |
+| Light panel | White | Rectangular panel | Navy and blue |
+| Light rounded | White | 22% corner radius | Navy and blue |
+| Dark panel | Navy | Rectangular panel | White and blue |
+| Dark rounded | Navy | 22% corner radius | White and blue |
+
+Each logo variant is available as SVG and as PNGs at 512, 1024, and 2048 pixels wide. The panel variants provide a predictable contrast surface. The transparent padded variant is suitable when the surrounding surface already provides sufficient contrast.
 
 ### Application icon variants
 

@@ -11,7 +11,7 @@ src/assets/payloadbay-logo.svg
 src/assets/payloadbay-mark.svg
 ```
 
-Do not manually create, edit, optimize, or replace files in `dist/`. All SVG, PNG, application-icon variants, and favicon files placed there are generated from the canonical sources. New variant geometry, backgrounds, or color transformations belong in the generator; do not add a second manually maintained SVG source for a derived variant. After changing a source SVG or the generator, use the repository's asset-generation command and commit the change together with the resulting generated files.
+Do not manually create, edit, optimize, or replace files in `dist/`. All SVG, PNG, logo surface variants, application-icon variants, and favicon files placed there are generated from the canonical sources. New variant geometry, backgrounds, or color transformations belong in the generator; do not add a second manually maintained SVG source for a derived variant. After changing a source SVG or the generator, use the repository's asset-generation command and commit the change together with the resulting generated files.
 
 Regenerate and validate the distribution after changing a source:
 
