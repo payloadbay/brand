@@ -7,6 +7,33 @@ import { basename, join, relative, resolve } from "node:path";
 const root = resolve(import.meta.dir, "..");
 const sourceDirectory = join(root, "src", "assets");
 const distributionDirectory = join(root, "dist");
+type BrandColor = { id: string; name: string; value: string };
+type BrandPalette = { colors: BrandColor[] };
+
+const brandPalette = JSON.parse(
+  await readFile(join(sourceDirectory, "brand-palette.json"), "utf8"),
+) as BrandPalette;
+if (!Array.isArray(brandPalette.colors)) {
+  throw new Error("brand-palette.json must contain a colors array");
+}
+if (brandPalette.colors.some((color) => !color.id || !color.name || !/^#[0-9a-f]{6}$/i.test(color.value))) {
+  throw new Error("brand-palette.json contains an invalid color");
+}
+const paletteById = new Map(brandPalette.colors.map((color) => [color.id, color]));
+if (paletteById.size !== brandPalette.colors.length) {
+  throw new Error("brand-palette.json contains duplicate color IDs");
+}
+function paletteValue(id: string) {
+  const color = paletteById.get(id);
+  if (!color || !/^#[0-9a-f]{6}$/i.test(color.value)) {
+    throw new Error(`brand-palette.json has no valid ${id} color`);
+  }
+  return color.value.toLowerCase();
+}
+
+const navy = paletteValue("logo-navy");
+const accent = paletteValue("accent-blue");
+const white = paletteValue("white");
 const assets = {
   logo: { source: "payloadbay-logo.svg", viewBox: "0 0 4538 1000", widths: [512, 1024, 2048] },
   mark: { source: "payloadbay-mark.svg", viewBox: "0 0 1000 1000", widths: [64, 128, 256, 512, 1024] },
@@ -15,17 +42,17 @@ const faviconWidths = [16, 32, 48] as const;
 const iconWidths = [64, 128, 256, 512, 1024] as const;
 const iconProfiles = [
   { name: "transparent-padded", background: null, rounded: false, inverse: false },
-  { name: "light-square", background: "#ffffff", rounded: false, inverse: false },
-  { name: "light-rounded", background: "#ffffff", rounded: true, inverse: false },
-  { name: "dark-square", background: "#09182b", rounded: false, inverse: true },
-  { name: "dark-rounded", background: "#09182b", rounded: true, inverse: true },
+  { name: "light-square", background: white, rounded: false, inverse: false },
+  { name: "light-rounded", background: white, rounded: true, inverse: false },
+  { name: "dark-square", background: navy, rounded: false, inverse: true },
+  { name: "dark-rounded", background: navy, rounded: true, inverse: true },
 ] as const;
 const logoProfiles = [
   { name: "transparent-padded", background: null, rounded: false, inverse: false },
-  { name: "light-panel", background: "#ffffff", rounded: false, inverse: false },
-  { name: "light-rounded", background: "#ffffff", rounded: true, inverse: false },
-  { name: "dark-panel", background: "#09182b", rounded: false, inverse: true },
-  { name: "dark-rounded", background: "#09182b", rounded: true, inverse: true },
+  { name: "light-panel", background: white, rounded: false, inverse: false },
+  { name: "light-rounded", background: white, rounded: true, inverse: false },
+  { name: "dark-panel", background: navy, rounded: false, inverse: true },
+  { name: "dark-rounded", background: navy, rounded: true, inverse: true },
 ] as const;
 
 type IconProfile = (typeof iconProfiles)[number];
@@ -41,8 +68,9 @@ const markViewBox = "0 0 1000 1000";
 const markPadding = 125;
 const markScale = 0.75;
 const roundedRadius = 220;
-const navy = "#09182b";
-const accent = "#156fde";
+const paletteViewBox = "0 0 240 240";
+const paletteWidth = 240;
+const paletteHeight = 240;
 
 function validateSource(svg: string, name: string, expectedViewBox: string) {
   if (!svg.includes("<svg") || !svg.includes(`viewBox="${expectedViewBox}"`)) {
@@ -58,6 +86,13 @@ function validateSource(svg: string, name: string, expectedViewBox: string) {
   if (forbidden.some((pattern) => pattern.test(svg))) {
     throw new Error(`${name} contains active or externally loaded SVG content`);
   }
+}
+
+function createPaletteSwatch(color: BrandColor) {
+  const stroke = color.id === "white" ? ` stroke="${navy}" stroke-opacity="0.16" stroke-width="2"` : "";
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${paletteViewBox}"><rect x="4" y="4" width="232" height="232" rx="24" ry="24" fill="${color.value}"${stroke}/></svg>\n`;
+  validateSource(svg, `${color.id}.svg`, paletteViewBox);
+  return svg;
 }
 
 function createDistributedSvg(svg: string) {
@@ -76,9 +111,16 @@ function extractSvgContents(svg: string) {
   return match[1].trim();
 }
 
+function validateBrandArtworkColors(svg: string, name: string) {
+  const normalized = svg.toLowerCase();
+  if (!normalized.includes(navy) || !normalized.includes(accent)) {
+    throw new Error(`${name} does not use the canonical logo navy and accent blue`);
+  }
+}
+
 function createIconSvg(mark: string, profile: IconProfile) {
   let contents = extractSvgContents(mark);
-  if (profile.inverse) contents = contents.replace(/#09182b/gi, "#ffffff");
+  if (profile.inverse) contents = contents.replace(new RegExp(navy, "gi"), white);
 
   const background = profile.background
     ? `<rect width="1000" height="1000"${profile.rounded ? ` rx="${roundedRadius}" ry="${roundedRadius}"` : ""} fill="${profile.background}"/>`
@@ -89,7 +131,7 @@ function createIconSvg(mark: string, profile: IconProfile) {
   if (!svg.toLowerCase().includes(accent)) {
     throw new Error(`${profile.name}.svg does not preserve the accent color`);
   }
-  if (profile.inverse && (contents.toLowerCase().includes(navy) || !contents.toLowerCase().includes("#ffffff"))) {
+  if (profile.inverse && (contents.toLowerCase().includes(navy) || !contents.toLowerCase().includes(white))) {
     throw new Error(`${profile.name}.svg does not invert the primary artwork`);
   }
   return svg;
@@ -97,7 +139,7 @@ function createIconSvg(mark: string, profile: IconProfile) {
 
 function createLogoSvg(logo: string, profile: LogoProfile) {
   let contents = extractSvgContents(logo);
-  if (profile.inverse) contents = contents.replace(/#09182b/gi, "#ffffff");
+  if (profile.inverse) contents = contents.replace(new RegExp(navy, "gi"), white);
 
   const background = profile.background
     ? `<rect width="${logoCanvasWidth}" height="${logoCanvasHeight}"${profile.rounded ? ` rx="${roundedRadius}" ry="${roundedRadius}"` : ""} fill="${profile.background}"/>`
@@ -108,17 +150,21 @@ function createLogoSvg(logo: string, profile: LogoProfile) {
   if (!svg.toLowerCase().includes(accent)) {
     throw new Error(`${profile.name}.svg does not preserve the accent color`);
   }
-  if (profile.inverse && (contents.toLowerCase().includes(navy) || !contents.toLowerCase().includes("#ffffff"))) {
+  if (profile.inverse && (contents.toLowerCase().includes(navy) || !contents.toLowerCase().includes(white))) {
     throw new Error(`${profile.name}.svg does not invert the primary artwork`);
   }
   return svg;
 }
 
-async function renderPng(svg: string, width: number, output: string) {
-  const rendered = new Resvg(svg, {
+function renderSvg(svg: string, width: number) {
+  return new Resvg(svg, {
     fitTo: { mode: "width", value: width },
     font: { loadSystemFonts: false },
   }).render();
+}
+
+async function renderPng(svg: string, width: number, output: string) {
+  const rendered = renderSvg(svg, width);
   await writeFile(output, rendered.asPng());
   return { width: rendered.width, height: rendered.height, pixels: rendered.pixels };
 }
@@ -140,23 +186,47 @@ function assertContainsPixel(pixels: Buffer, expected: number[], message: string
   throw new Error(`${message}: ${expected.join(",")} was not found`);
 }
 
+function hexToRgba(value: string) {
+  return [
+    Number.parseInt(value.slice(1, 3), 16),
+    Number.parseInt(value.slice(3, 5), 16),
+    Number.parseInt(value.slice(5, 7), 16),
+    255,
+  ];
+}
+
+const navyRgba = hexToRgba(navy);
+const accentRgba = hexToRgba(accent);
+const whiteRgba = hexToRgba(white);
+
+function validatePaletteSwatch(color: BrandColor, rendered: { width: number; height: number; pixels: Buffer }) {
+  if (rendered.width !== paletteWidth || rendered.height !== paletteHeight) {
+    throw new Error(`${color.id}.svg has unexpected rendered dimensions`);
+  }
+  assertPixel(
+    pixelAt(rendered.pixels, (Math.floor(rendered.height / 2) * rendered.width + Math.floor(rendered.width / 2)) * 4),
+    hexToRgba(color.value),
+    `${color.id}.svg has an unexpected center pixel`,
+  );
+}
+
 function validateRenderedIcon(profile: IconProfile, width: number, pixels: Buffer) {
   const corner =
     profile.background && !profile.rounded
       ? profile.background === navy
-        ? [9, 24, 43, 255]
-        : [255, 255, 255, 255]
+        ? navyRgba
+        : whiteRgba
       : [0, 0, 0, 0];
   assertPixel(pixelAt(pixels, 0), corner, `${profile.name}-${width}.png has an unexpected corner pixel`);
   if (width >= 64) {
     assertContainsPixel(
       pixels,
-      [21, 111, 222, 255],
+      accentRgba,
       `${profile.name}-${width}.png does not preserve the accent color`,
     );
     assertContainsPixel(
       pixels,
-      profile.inverse ? [255, 255, 255, 255] : [9, 24, 43, 255],
+      profile.inverse ? whiteRgba : navyRgba,
       `${profile.name}-${width}.png does not contain the expected primary artwork color`,
     );
   }
@@ -166,18 +236,18 @@ function validateRenderedLogo(profile: LogoProfile, width: number, pixels: Buffe
   const corner =
     profile.background && !profile.rounded
       ? profile.background === navy
-        ? [9, 24, 43, 255]
-        : [255, 255, 255, 255]
+        ? navyRgba
+        : whiteRgba
       : [0, 0, 0, 0];
   assertPixel(pixelAt(pixels, 0), corner, `${profile.name}-${width}w.png has an unexpected corner pixel`);
   assertContainsPixel(
     pixels,
-    [21, 111, 222, 255],
+    accentRgba,
     `${profile.name}-${width}w.png does not preserve the accent color`,
   );
   assertContainsPixel(
     pixels,
-    profile.inverse ? [255, 255, 255, 255] : [9, 24, 43, 255],
+    profile.inverse ? whiteRgba : navyRgba,
     `${profile.name}-${width}w.png does not contain the expected primary artwork color`,
   );
 }
@@ -187,8 +257,9 @@ async function generate(outputRoot: string) {
   const markDirectory = join(outputRoot, "mark");
   const iconDirectory = join(outputRoot, "icon");
   const faviconDirectory = join(outputRoot, "favicon");
+  const paletteDirectory = join(outputRoot, "palette", "brand");
   await Promise.all(
-    [logoDirectory, markDirectory, iconDirectory, faviconDirectory].map((directory) =>
+    [logoDirectory, markDirectory, iconDirectory, faviconDirectory, paletteDirectory].map((directory) =>
       mkdir(directory, { recursive: true }),
     ),
   );
@@ -197,6 +268,7 @@ async function generate(outputRoot: string) {
   for (const [kind, configuration] of Object.entries(assets)) {
     const source = await readFile(join(sourceDirectory, configuration.source), "utf8");
     validateSource(source, configuration.source, configuration.viewBox);
+    validateBrandArtworkColors(source, configuration.source);
     const distributed = createDistributedSvg(source);
     distributedSvgs.set(kind, distributed);
     const targetDirectory = kind === "logo" ? logoDirectory : markDirectory;
@@ -228,6 +300,12 @@ async function generate(outputRoot: string) {
       }
       validateRenderedLogo(profile, width, rendered.pixels);
     }
+  }
+
+  for (const color of brandPalette.colors) {
+    const swatch = createPaletteSwatch(color);
+    await writeFile(join(paletteDirectory, `${color.id}.svg`), swatch);
+    validatePaletteSwatch(color, renderSvg(swatch, paletteWidth));
   }
 
   const generatedIcons = new Map<string, string>();
@@ -291,7 +369,7 @@ async function compareDirectories(expected: string, actual: string) {
 async function main() {
   const mode = process.argv[2];
   if (mode === "generate") {
-    for (const directory of ["logo", "mark", "icon", "favicon"]) {
+    for (const directory of ["logo", "mark", "icon", "favicon", "palette"]) {
       await rm(join(distributionDirectory, directory), { recursive: true, force: true });
     }
     await generate(distributionDirectory);
