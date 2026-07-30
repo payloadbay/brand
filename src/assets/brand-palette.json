@@ -1,0 +1,19 @@
+{
+  "colors": [
+    {
+      "id": "logo-navy",
+      "name": "Logo navy",
+      "value": "#09182B"
+    },
+    {
+      "id": "accent-blue",
+      "name": "Accent blue",
+      "value": "#156FDE"
+    },
+    {
+      "id": "white",
+      "name": "White",
+      "value": "#FFFFFF"
+    }
+  ]
+}

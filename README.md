@@ -14,14 +14,16 @@ clear space, minimum sizes, misuse, and brand voice.
 
 ## Brand assets
 
-Payload Bay currently provides two canonical SVG sources:
+Payload Bay currently provides two canonical SVG sources and a canonical
+identity-palette definition:
 
 - [`payloadbay-logo.svg`](src/assets/payloadbay-logo.svg) is the complete logo: the mark together with the Payload Bay wordmark.
 - [`payloadbay-mark.svg`](src/assets/payloadbay-mark.svg) is the standalone visual mark without text.
+- [`brand-palette.json`](src/assets/brand-palette.json) defines the logo navy, accent blue, and white identity colors used by generated assets and palette swatches.
 
-Edit only the canonical SVG files in [`src/assets`](src/assets). Files in [`dist`](dist) are generated distributions and must not be edited manually.
+Edit only the canonical SVG files and palette definition in [`src/assets`](src/assets). Files in [`dist`](dist) are generated distributions and must not be edited manually.
 
-Regenerate and validate the distributed SVG, PNG, and favicon files after changing a canonical source:
+Regenerate and validate the distributed SVG, PNG, favicon, and palette files after changing a canonical source:
 
 ```bash
 bun install
@@ -29,7 +31,7 @@ bun run assets:generate
 bun run assets:check
 ```
 
-The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; reusable logo surface variants; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; application-icon variants; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; reusable logo surface variants; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; application-icon variants; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; sanitized SVG copies; and local SVG color swatches.
 
 ### Logo surface variants
 

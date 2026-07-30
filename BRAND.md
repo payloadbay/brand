@@ -165,13 +165,26 @@ variant without updating the canonical brand assets and this guide.
 
 ## Colors
 
-The visual identity uses a restrained blue and navy palette.
+The visual identity uses a restrained blue and navy palette. The large swatches
+below are generated from [`src/assets/brand-palette.json`](src/assets/brand-palette.json).
 
-| Preview | Role | Value | Use |
-| --- | --- | --- | --- |
-| `#09182B` | Logo navy | `#09182B` | Primary logo artwork on light and transparent surfaces |
-| `#156FDE` | Accent blue | `#156FDE` | Payload dots, bay outline, and focused emphasis |
-| `#FFFFFF` | White | `#FFFFFF` | Inverse artwork and light surface variants |
+<table>
+  <tr>
+    <td align="center"><img src="dist/palette/brand/logo-navy.svg" alt="Logo navy color swatch" width="180"></td>
+    <td align="center"><img src="dist/palette/brand/accent-blue.svg" alt="Accent blue color swatch" width="180"></td>
+    <td align="center"><img src="dist/palette/brand/white.svg" alt="White color swatch" width="180"></td>
+  </tr>
+  <tr>
+    <td><code>#09182B</code></td>
+    <td><code>#156FDE</code></td>
+    <td><code>#FFFFFF</code></td>
+  </tr>
+  <tr>
+    <td><strong>Logo navy.</strong> Primary logo artwork on light and transparent surfaces.</td>
+    <td><strong>Accent blue.</strong> Payload dots, bay outline, and focused emphasis.</td>
+    <td><strong>White.</strong> Inverse artwork and light surface variants. Its swatch has a subtle border so it remains visible on light surfaces.</td>
+  </tr>
+</table>
 
 For product-interface colors, semantic states, and resolved light and dark
 tokens, use [`DESIGN.md`](DESIGN.md). Do not treat this short identity palette
