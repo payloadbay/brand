@@ -23,7 +23,22 @@ bun run assets:generate
 bun run assets:check
 ```
 
-The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide; square mark PNGs at 64, 128, 256, 512, and 1024 pixels; application-icon variants; 16, 32, and 48 pixel favicon PNGs; a multi-resolution `favicon.ico`; and sanitized SVG copies.
+
+### Application icon variants
+
+The standalone mark remains available unchanged on a transparent canvas in [`dist/mark`](dist/mark). Additional application-ready variants are generated from that same canonical mark in [`dist/icon`](dist/icon):
+
+| Variant | Background | Shape | Primary artwork |
+| --- | --- | --- | --- |
+| Original mark | Transparent | Original canvas | Navy and blue |
+| Transparent padded | Transparent | Square canvas with 12.5% padding | Navy and blue |
+| Light square | White | Square | Navy and blue |
+| Light rounded | White | 22% corner radius | Navy and blue |
+| Dark square | Navy | Square | White and blue |
+| Dark rounded | Navy | 22% corner radius | White and blue |
+
+Each generated icon variant is available as SVG and as 64, 128, 256, 512, and 1024 pixel PNGs. The favicon package uses the light rounded variant so it remains legible and intentional on browser surfaces that do not provide a predictable background.
 
 ## Product references
 
