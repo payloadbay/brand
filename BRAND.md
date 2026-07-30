@@ -38,26 +38,49 @@ create a second editable source from a generated file.
 
 ### Complete logo
 
-| Original | Transparent padded | Light panel |
-| --- | --- | --- |
-| <img src="dist/logo/payloadbay-logo.svg" alt="Original Payload Bay logo" width="280"> | <img src="dist/logo/payloadbay-logo-transparent-padded.svg" alt="Transparent padded Payload Bay logo" width="280"> | <img src="dist/logo/payloadbay-logo-light-panel.svg" alt="Light panel Payload Bay logo" width="280"> |
+#### Transparent variants
 
-| Light rounded | Dark panel | Dark rounded |
-| --- | --- | --- |
-| <img src="dist/logo/payloadbay-logo-light-rounded.svg" alt="Light rounded Payload Bay logo" width="280"> | <img src="dist/logo/payloadbay-logo-dark-panel.svg" alt="Dark panel Payload Bay logo" width="280"> | <img src="dist/logo/payloadbay-logo-dark-rounded.svg" alt="Dark rounded Payload Bay logo" width="280"> |
+| Original | Transparent padded |
+| --- | --- |
+| <img src="dist/logo/payloadbay-logo.svg" alt="Original Payload Bay logo" width="360"> | <img src="dist/logo/payloadbay-logo-transparent-padded.svg" alt="Transparent padded Payload Bay logo" width="360"> |
+
+#### Light-surface variants
+
+| Light panel | Light rounded |
+| --- | --- |
+| <img src="dist/logo/payloadbay-logo-light-panel.svg" alt="Light panel Payload Bay logo" width="360"> | <img src="dist/logo/payloadbay-logo-light-rounded.svg" alt="Light rounded Payload Bay logo" width="360"> |
+
+#### Dark-surface variants
+
+| Dark panel | Dark rounded |
+| --- | --- |
+| <img src="dist/logo/payloadbay-logo-dark-panel.svg" alt="Dark panel Payload Bay logo" width="360"> | <img src="dist/logo/payloadbay-logo-dark-rounded.svg" alt="Dark rounded Payload Bay logo" width="360"> |
 
 ### Mark and application icon
 
-| Original mark | Transparent padded | Light square |
-| --- | --- | --- |
-| <img src="dist/mark/payloadbay-mark.svg" alt="Original Payload Bay mark" width="120"> | <img src="dist/icon/payloadbay-icon-transparent-padded.svg" alt="Transparent padded Payload Bay mark" width="120"> | <img src="dist/icon/payloadbay-icon-light-square.svg" alt="Light square Payload Bay mark" width="120"> |
+#### Transparent variants
 
-| Light rounded | Dark square | Dark rounded |
-| --- | --- | --- |
-| <img src="dist/icon/payloadbay-icon-light-rounded.svg" alt="Light rounded Payload Bay mark" width="120"> | <img src="dist/icon/payloadbay-icon-dark-square.svg" alt="Dark square Payload Bay mark" width="120"> | <img src="dist/icon/payloadbay-icon-dark-rounded.svg" alt="Dark rounded Payload Bay mark" width="120"> |
+| Original mark | Transparent padded |
+| --- | --- |
+| <img src="dist/mark/payloadbay-mark.svg" alt="Original Payload Bay mark" width="140"> | <img src="dist/icon/payloadbay-icon-transparent-padded.svg" alt="Transparent padded Payload Bay mark" width="140"> |
 
-The favicon package uses the light rounded mark and is available in
-[`dist/favicon`](dist/favicon).
+#### Light-surface variants
+
+| Light square | Light rounded |
+| --- | --- |
+| <img src="dist/icon/payloadbay-icon-light-square.svg" alt="Light square Payload Bay mark" width="140"> | <img src="dist/icon/payloadbay-icon-light-rounded.svg" alt="Light rounded Payload Bay mark" width="140"> |
+
+#### Dark-surface variants
+
+| Dark square | Dark rounded |
+| --- | --- |
+| <img src="dist/icon/payloadbay-icon-dark-square.svg" alt="Dark square Payload Bay mark" width="140"> | <img src="dist/icon/payloadbay-icon-dark-rounded.svg" alt="Dark rounded Payload Bay mark" width="140"> |
+
+### Favicon
+
+| Preview | Files | Source variant |
+| --- | --- | --- |
+| <img src="dist/favicon/favicon.svg" alt="Payload Bay favicon" width="48"> | [`favicon.svg`](dist/favicon/favicon.svg), [16px PNG](dist/favicon/favicon-16x16.png), [32px PNG](dist/favicon/favicon-32x32.png), [48px PNG](dist/favicon/favicon-48x48.png), and [`favicon.ico`](dist/favicon/favicon.ico) | Light rounded mark |
 
 ## Logo concept
 
@@ -144,11 +167,11 @@ variant without updating the canonical brand assets and this guide.
 
 The visual identity uses a restrained blue and navy palette.
 
-| Role | Value | Use |
-| --- | --- | --- |
-| Logo navy | `#09182B` | Primary logo artwork on light and transparent surfaces |
-| Accent blue | `#156FDE` | Payload dots, bay outline, and focused emphasis |
-| White | `#FFFFFF` | Inverse artwork and light surface variants |
+| Preview | Role | Value | Use |
+| --- | --- | --- | --- |
+| `#09182B` | Logo navy | `#09182B` | Primary logo artwork on light and transparent surfaces |
+| `#156FDE` | Accent blue | `#156FDE` | Payload dots, bay outline, and focused emphasis |
+| `#FFFFFF` | White | `#FFFFFF` | Inverse artwork and light surface variants |
 
 For product-interface colors, semantic states, and resolved light and dark
 tokens, use [`DESIGN.md`](DESIGN.md). Do not treat this short identity palette
