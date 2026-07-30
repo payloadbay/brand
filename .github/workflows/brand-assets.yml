@@ -1,0 +1,37 @@
+name: Brand Assets
+
+on:
+  pull_request:
+    paths:
+      - "src/assets/**"
+      - "dist/**"
+      - "scripts/assets.ts"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/brand-assets.yml"
+  push:
+    branches: [master]
+    paths:
+      - "src/assets/**"
+      - "dist/**"
+      - "scripts/assets.ts"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/brand-assets.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Generated Brand Assets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Validate generated assets
+        run: bun run assets:check

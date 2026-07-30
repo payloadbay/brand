@@ -1,0 +1,13 @@
+{
+  "name": "@payloadbay/brand-assets",
+  "private": true,
+  "scripts": {
+    "assets:generate": "bun run scripts/assets.ts generate",
+    "assets:check": "bun run scripts/assets.ts check"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "png-to-ico": "^3.0.2"
+  }
+}
