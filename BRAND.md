@@ -212,16 +212,16 @@ technical resource names in product copy and documentation: Installation,
 Workspace, Environment, Source, Route, Target, Runner, Event, Receipt,
 Delivery, Attempt, and Incident.
 
-## Do and don't
+## Usage rules
 
-Do:
+### ✅ Do
 
 - use the existing generated variant that matches the surface;
 - preserve proportions, colors, and clear space;
 - use the complete logo when horizontal space allows; and
 - use clear technical terms for product resources.
 
-Do not:
+### ❌ Don't
 
 - modify the logo or mark geometry;
 - use a generated asset as a new editable source;
