@@ -70,6 +70,11 @@ Each generated icon variant is available as SVG and as 64, 128, 256, 512, and 10
 
 These reference exports intentionally retain their original structure, including the embedded SVG data in `PRODUCT.md`.
 
+- [`theme.css`](theme.css) is the canonical runtime CSS export from the saved [Payload Bay HeroUI design system](https://heroui.pro/ds/8f0da332-3e6b-432a-be89-469be673b68b). Import it after Tailwind, HeroUI base and HeroUI Pro styles. Activate `data-theme="light"` or `data-theme="dark"`; load Inter locally in the consuming application.
+- Application copies must retain provenance and match this canonical file. The HeroUI export contains customized variables; base component tokens come from the installed HeroUI styles.
+
+The 2026-10-13 CSS export adds the missing runtime stylesheet. Existing Markdown references were preserved; a regenerated Markdown export differs and is not silently substituted.
+
 ## Contributing
 
 Read [`CONTRIBUTING.md`](CONTRIBUTING.md) before changing the brand sources. General Payload Bay contribution rules also apply.
