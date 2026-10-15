@@ -41,20 +41,24 @@ const assets = {
 const faviconWidths = [16, 32, 48] as const;
 const iconWidths = [64, 128, 256, 512, 1024] as const;
 const iconProfiles = [
-  { name: "transparent-padded", background: null, rounded: false, inverse: false },
-  { name: "dark-transparent-padded", background: null, rounded: false, inverse: true },
-  { name: "light-square", background: white, rounded: false, inverse: false },
-  { name: "light-rounded", background: white, rounded: true, inverse: false },
-  { name: "dark-square", background: navy, rounded: false, inverse: true },
-  { name: "dark-rounded", background: navy, rounded: true, inverse: true },
+  { name: "transparent", background: null, padded: false, rounded: false, inverse: false },
+  { name: "dark-transparent", background: null, padded: false, rounded: false, inverse: true },
+  { name: "transparent-padded", background: null, padded: true, rounded: false, inverse: false },
+  { name: "dark-transparent-padded", background: null, padded: true, rounded: false, inverse: true },
+  { name: "light-square", background: white, padded: true, rounded: false, inverse: false },
+  { name: "light-rounded", background: white, padded: true, rounded: true, inverse: false },
+  { name: "dark-square", background: navy, padded: true, rounded: false, inverse: true },
+  { name: "dark-rounded", background: navy, padded: true, rounded: true, inverse: true },
 ] as const;
 const logoProfiles = [
-  { name: "transparent-padded", background: null, rounded: false, inverse: false },
-  { name: "dark-transparent-padded", background: null, rounded: false, inverse: true },
-  { name: "light-panel", background: white, rounded: false, inverse: false },
-  { name: "light-rounded", background: white, rounded: true, inverse: false },
-  { name: "dark-panel", background: navy, rounded: false, inverse: true },
-  { name: "dark-rounded", background: navy, rounded: true, inverse: true },
+  { name: "transparent", background: null, padded: false, rounded: false, inverse: false },
+  { name: "dark-transparent", background: null, padded: false, rounded: false, inverse: true },
+  { name: "transparent-padded", background: null, padded: true, rounded: false, inverse: false },
+  { name: "dark-transparent-padded", background: null, padded: true, rounded: false, inverse: true },
+  { name: "light-panel", background: white, padded: true, rounded: false, inverse: false },
+  { name: "light-rounded", background: white, padded: true, rounded: true, inverse: false },
+  { name: "dark-panel", background: navy, padded: true, rounded: false, inverse: true },
+  { name: "dark-rounded", background: navy, padded: true, rounded: true, inverse: true },
 ] as const;
 
 type IconProfile = (typeof iconProfiles)[number];
@@ -127,7 +131,10 @@ function createIconSvg(mark: string, profile: IconProfile) {
   const background = profile.background
     ? `<rect width="1000" height="1000"${profile.rounded ? ` rx="${roundedRadius}" ry="${roundedRadius}"` : ""} fill="${profile.background}"/>`
     : "";
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${markViewBox}">${background}<g transform="translate(${markPadding} ${markPadding}) scale(${markScale})">${contents}</g></svg>\n`;
+  const artwork = profile.padded
+    ? `<g transform="translate(${markPadding} ${markPadding}) scale(${markScale})">${contents}</g>`
+    : contents;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${markViewBox}">${background}${artwork}</svg>\n`;
 
   validateSource(svg, `${profile.name}.svg`, markViewBox);
   if (!svg.toLowerCase().includes(accent)) {
@@ -146,7 +153,10 @@ function createLogoSvg(logo: string, profile: LogoProfile) {
   const background = profile.background
     ? `<rect width="${logoCanvasWidth}" height="${logoCanvasHeight}"${profile.rounded ? ` rx="${roundedRadius}" ry="${roundedRadius}"` : ""} fill="${profile.background}"/>`
     : "";
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${logoViewBox}">${background}<g transform="translate(${logoOffsetX} ${logoOffsetY}) scale(${logoScale})">${contents}</g></svg>\n`;
+  const artwork = profile.padded
+    ? `<g transform="translate(${logoOffsetX} ${logoOffsetY}) scale(${logoScale})">${contents}</g>`
+    : contents;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${logoViewBox}">${background}${artwork}</svg>\n`;
 
   validateSource(svg, `${profile.name}.svg`, logoViewBox);
   if (!svg.toLowerCase().includes(accent)) {

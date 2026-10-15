@@ -154,6 +154,7 @@ surface variants provide predictable contrast and padding without a second
 maintained source file.
 
 - Use `light-panel` or `light-rounded` when the artwork needs a white contrast surface.
+- Use `transparent` (navy and blue) or `dark-transparent` (white and blue) for logos and standalone icons when the layout supplies clear space. These preserve the source canvas without adding padding.
 - Use `dark-transparent-padded` for dark application surfaces that should remain visible through the asset; it uses the existing white-and-blue inverse artwork without a background.
 - Use `dark-panel` or `dark-rounded` when a dark backing surface is needed.
 - Use `transparent-padded` when the surrounding surface already provides contrast and the asset needs breathing room.
