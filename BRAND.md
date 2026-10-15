@@ -123,7 +123,7 @@ avatars, and other constrained square surfaces.
 | First or prominent brand reference | Complete logo |
 | Narrow or square surface | Mark |
 | Light or unpredictable background | Light panel or light rounded variant |
-| Dark background | Dark panel or dark rounded variant |
+| Dark background | Dark transparent padded, dark panel or dark rounded variant |
 | Surface with controlled contrast | Transparent original or transparent padded variant |
 
 The editable source files are
@@ -154,7 +154,8 @@ surface variants provide predictable contrast and padding without a second
 maintained source file.
 
 - Use `light-panel` or `light-rounded` when the artwork needs a white contrast surface.
-- Use `dark-panel` or `dark-rounded` when the artwork appears on a dark surface.
+- Use `dark-transparent-padded` for dark application surfaces that should remain visible through the asset; it uses the existing white-and-blue inverse artwork without a background.
+- Use `dark-panel` or `dark-rounded` when a dark backing surface is needed.
 - Use `transparent-padded` when the surrounding surface already provides contrast and the asset needs breathing room.
 - Use rounded variants for friendly, contained surfaces such as profiles and documentation headers.
 - Use panel variants when the surrounding layout is already rectangular or its corner treatment is unknown.

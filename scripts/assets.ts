@@ -42,6 +42,7 @@ const faviconWidths = [16, 32, 48] as const;
 const iconWidths = [64, 128, 256, 512, 1024] as const;
 const iconProfiles = [
   { name: "transparent-padded", background: null, rounded: false, inverse: false },
+  { name: "dark-transparent-padded", background: null, rounded: false, inverse: true },
   { name: "light-square", background: white, rounded: false, inverse: false },
   { name: "light-rounded", background: white, rounded: true, inverse: false },
   { name: "dark-square", background: navy, rounded: false, inverse: true },
@@ -49,6 +50,7 @@ const iconProfiles = [
 ] as const;
 const logoProfiles = [
   { name: "transparent-padded", background: null, rounded: false, inverse: false },
+  { name: "dark-transparent-padded", background: null, rounded: false, inverse: true },
   { name: "light-panel", background: white, rounded: false, inverse: false },
   { name: "light-rounded", background: white, rounded: true, inverse: false },
   { name: "dark-panel", background: navy, rounded: false, inverse: true },
@@ -333,7 +335,7 @@ async function generate(outputRoot: string) {
     if (rendered.width !== width || rendered.height !== width) {
       throw new Error(`Unexpected dimensions for ${relative(outputRoot, output)}`);
     }
-    validateRenderedIcon(iconProfiles[2], width, rendered.pixels);
+    validateRenderedIcon(iconProfiles.find((profile) => profile.name === "light-rounded")!, width, rendered.pixels);
     faviconPngs.push(output);
   }
   await writeFile(join(faviconDirectory, "favicon.ico"), await pngToIco(faviconPngs));

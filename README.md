@@ -35,12 +35,13 @@ The generated distribution includes logo PNGs at 512, 1024, and 2048 pixels wide
 
 ### Logo surface variants
 
-The complete logo remains available unchanged on a transparent canvas in [`dist/logo`](dist/logo). Five additional variants are generated from the same canonical logo for documentation headers, repository profiles, websites, and other surfaces with known or unknown backgrounds:
+The complete logo remains available unchanged on a transparent canvas in [`dist/logo`](dist/logo). Six additional variants are generated from the same canonical logo for documentation headers, repository profiles, websites, and other surfaces with known or unknown backgrounds:
 
 | Variant | Background | Shape | Primary artwork |
 | --- | --- | --- | --- |
 | Original logo | Transparent | Original canvas | Navy and blue |
 | Transparent padded | Transparent | Original aspect ratio with 12.5% padding | Navy and blue |
+| Dark transparent padded | Transparent | Original aspect ratio with 12.5% padding | White and blue |
 | Light panel | White | Rectangular panel | Navy and blue |
 | Light rounded | White | 22% corner radius | Navy and blue |
 | Dark panel | Navy | Rectangular panel | White and blue |
@@ -56,6 +57,7 @@ The standalone mark remains available unchanged on a transparent canvas in [`dis
 | --- | --- | --- | --- |
 | Original mark | Transparent | Original canvas | Navy and blue |
 | Transparent padded | Transparent | Square canvas with 12.5% padding | Navy and blue |
+| Dark transparent padded | Transparent | Square canvas with 12.5% padding | White and blue |
 | Light square | White | Square | Navy and blue |
 | Light rounded | White | 22% corner radius | Navy and blue |
 | Dark square | Navy | Square | White and blue |
